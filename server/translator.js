@@ -9,11 +9,12 @@
 
 'use strict';
 
-var exec     = require('child_process').exec,
-    parser   = require('body-parser'),
-    express  = require('express'),
-    request  = require('request'),
-    app      = express();
+var translate = require('google-translate-api'),
+    exec      = require('child_process').exec,
+    parser    = require('body-parser'),
+    express   = require('express'),
+    request   = require('request'),
+    app       = express();
 
 app.use(parser.json());
 app.use(parser.urlencoded({ extended: true }));
@@ -26,52 +27,30 @@ app.use(function (req, res, next) {
 });
 
 app.post('/translate', function (req, res) {
-  const URL = `https://translate.google.com/translate_tts?ie=UTF-8&q=${req.body.message}&tl=en-US&client=tw-ob`;
-  const MP3 = `./translations/${req.body.file}.mp3`;
-  let headersString = '';
+  const MP3  = `./translations/${req.body.message.replace(new RegExp(' ', 'g'), '-')}_${req.body.file}.mp3`;
+  const LANG = req.body.lang.includes('zh') ? req.body.lang : req.body.lang.slice(0, 2);
 
-  const headers = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36', // 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.75 Safari/537.36',
-    'Referer': 'https://translate.google.com/?hl=en',
-    'Accept-Encoding': 'identity;q=1, *;q=0',
-    'Range': 'bytes=0-'
-  };
+  translate(req.body.message, {to: LANG}).then(res => {
+    const URL = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURI(res.text)}&tl=${req.body.lang}&client=tw-ob`;
 
-  for (let h in headers) {
-    headersString += ` -H "${h}: ${headers[h]}"`
-  }
+    const headers = {
+      'Referer': `https://translate.google.com/?hl=${req.body.lang.slice(0, 2)}`,
+      'Accept-Encoding': 'identity;q=1, *;q=0',
+      'User-Agent': req.body.ua,
+      'Range': 'bytes=0-'
+    };
 
-  console.log(`curl -s -o ${MP3} "${URL}" ${headersString} --compressed`);
+    let headersString = '';
 
-  // exec(`curl -s -o ${MP3} "${URL}" ${headersString} --compressed`, function (error, stdout, stderr) {
-  //   if (error) {
-  //     console.log(error);
-  //     res.status(500).send('D:');
-  //   }
-  // });
+    for (let h in headers) {
+      headersString += ` -H "${h}: ${headers[h]}"`
+    }
 
-  // request(call, function (error, response, body) {
-  //   console.log(response);
-  //   res.status(response.statusCode).send(file);
-  // });
-
-  // var mp3 = fs.createWriteStream(file);
-
-  // request.post(call)
-  //   .on('error', function (err) {
-  //     console.log(err);
-  //   })
-
-  //   .on('data', function (data) {
-  //     mp3.write(data);
-  //   })
-
-  //   .on('end', function(){
-  //     mp3.end();
-  //     res.status(200).send(file);
-  //   });
+    exec(`curl -s -o ${MP3} "${URL}" ${headersString} --compressed`, function () {
+      res.status(200).send({ text: res.text, audio: MP3 });
+    });
+  });
 });
-
 
 app.set('port', (process.env.PORT || 3000));
 

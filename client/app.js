@@ -1,14 +1,15 @@
 document.addEventListener('DOMContentLoaded', function () {
-  function translateText () {
-    var text = encodeURI(field.value),
-        xhr  = new XMLHttpRequest(),
-        file = 'file';
+  var language = document.getElementById('language-field');
+  var field    = document.getElementById('input-field');
+  var file     = document.getElementById('file-field');
 
-    console.log(text);
+  function translateText () {
+    var xhr = new XMLHttpRequest();
+    var file = Date.now();
 
     xhr.open('POST', '/translate', true);
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    xhr.send(encodeURI('file=' + file + '&message=' + text));
+    xhr.send(encodeURI('message=' + field.value + '&file=' + file + '&lang=' + language.value + '&ua=' + navigator.userAgent));
 
     xhr.onreadystatechange = function () {
       if (xhr.readyState === XMLHttpRequest.DONE) {
@@ -17,6 +18,5 @@ document.addEventListener('DOMContentLoaded', function () {
     };
   }
 
-  var field = document.getElementById('input-field');
   document.getElementById('translate').addEventListener('click', translateText);
 });

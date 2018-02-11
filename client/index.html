@@ -11,7 +11,27 @@
   </head>
 
   <body>
-    <input id="input-field" type="text" />
-    <button id="translate">Translate</button>
+    <div class="settings-container">
+
+      <div class="input-value text">
+        <span class="info input-field">Text to translate:</span>
+        <input id="input-field" type="text" class="input" />
+      </div>
+
+      <div class="input-value lang">
+        <span class="info output-language">Select Language:</span>
+        <select id="language-field" class="input">
+          <option value="en-US">English</option>
+          <option value="it-IT">Italian</option>
+          <option value="ru-RU">Russian</option>
+          <option value="es-MX">Mexican</option>
+          <option value="pt-BR">Brazilian</option>
+          <option value="zh-CN">Chinese</option>
+          <option value="ja-JA">Japanese</option>
+        </select>
+      </div>
+
+      <button id="translate">Translate</button>
+    </div>
   </body>
 </html>
