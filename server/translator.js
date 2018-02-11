@@ -4,7 +4,7 @@
 //  -H "Referer: https://translate.google.com/?hl=en"
 //  -H "Accept-Encoding: identity;q=1, *;q=0"
 //  -H "Range: bytes=0-"
-//  --compressed [&& mpg123 -q hello_world.mp3 &]
+//  --compressed
 
 
 'use strict';
@@ -27,11 +27,11 @@ app.use(function (req, res, next) {
 });
 
 app.post('/translate', function (req, res) {
-  const MP3  = `./translations/${req.body.message.replace(new RegExp(' ', 'g'), '-')}_${req.body.file}.mp3`;
+  const MP3  = `audio/${req.body.message.replace(new RegExp(' ', 'g'), '-')}_${req.body.file}.mp3`;
   const LANG = req.body.lang.includes('zh') ? req.body.lang : req.body.lang.slice(0, 2);
 
-  translate(req.body.message, {to: LANG}).then(res => {
-    const URL = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURI(res.text)}&tl=${req.body.lang}&client=tw-ob`;
+  translate(req.body.message, {to: LANG}).then(response => {
+    const URL = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURI(response.text)}&tl=${req.body.lang}&client=tw-ob`;
 
     const headers = {
       'Referer': `https://translate.google.com/?hl=${req.body.lang.slice(0, 2)}`,
@@ -46,8 +46,8 @@ app.post('/translate', function (req, res) {
       headersString += ` -H "${h}: ${headers[h]}"`
     }
 
-    exec(`curl -s -o ${MP3} "${URL}" ${headersString} --compressed`, function () {
-      res.status(200).send({ text: res.text, audio: MP3 });
+    exec(`curl -s -o ./client/${MP3} "${URL}" ${headersString} --compressed`, function () {
+      res.status(200).send({ text: response.text, audio: MP3 });
     });
   });
 });

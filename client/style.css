@@ -41,7 +41,7 @@ html, body {
   position: absolute;
   margin: auto;
 
-  height: 200px;
+  height: 300px;
   width: 50vw;
 
   bottom: 0;
@@ -102,7 +102,7 @@ html, body {
   height: 35px;
   width: 125px;
 
-  bottom: 0;
+  bottom: 100px;
   right: 0;
   left: 0;
 }
@@ -110,4 +110,22 @@ html, body {
 #translate:hover {
   background-color: #000;
   color: #FFF;
+}
+
+.response-container {
+  position: absolute;
+  height: 40px;
+  width: 100%;
+  bottom: 0;
+}
+
+#translated-text {
+  line-height: 40px;
+  font-size: 25px;
+}
+
+#audio-translation {
+  visibility: hidden;
+  position: absolute;
+  right: 0;
 }
