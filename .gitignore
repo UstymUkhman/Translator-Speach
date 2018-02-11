@@ -1,0 +1,3 @@
+node_modules
+translations/*.mp3
+!translations/.gitkeep

@@ -1,0 +1,23 @@
+{
+  "name": "Translator-Speach",
+  "description": "Google Translator message reproduced with Raspberry Pi",
+  "main": "server/battleship.js",
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {
+    "start": "node server/translator.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.16.0",
+    "express": "^4.14.0",
+    "request": "^2.83.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/UstymUkhman/Translator-Speach"
+  },
+  "keywords": [
+    "translator",
+    "raspberry"
+  ]
+}

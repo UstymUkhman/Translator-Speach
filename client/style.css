@@ -1,0 +1,196 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+html, body {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-touch-callout: none;
+  text-size-adjust: none;
+
+  font-family: 'Roboto', sans-serif;
+  font-variant: normal;
+  font-style: normal;
+  font-weight: 400;
+
+  background-color: #666;
+
+  user-select: none;
+  appearance: none;
+  overflow: hidden;
+
+  max-height: 100%;
+  min-height: 100%;
+
+  max-width: 100%;
+  min-width: 100%;
+
+  height: 100%;
+  width: 100%;
+
+  padding: 0;
+  margin: 0;
+}
+
+.setup-container {
+  transition: opacity 0.5s;
+  position: absolute;
+
+  right: 0;
+  left: 0;
+  top: 0;
+}
+
+.setup-container.hidden {
+  opacity: 0;
+}
+
+.field-container {
+  position: relative;
+  margin: 100px auto;
+
+  height: 405px;
+  width: 606px;
+}
+
+.field-container .row {
+  height: 101px;
+  width: 607px;
+}
+
+.field-container .row .ceil {
+  background-color: rgba(0, 0, 0, 0.25);
+  border: 1px solid #aaa;
+  margin-right: -5px;
+
+  display: inline-block;
+  position: relative;
+
+  height: 100px;
+  width: 100px;
+}
+
+.field-container .row span {
+  text-align: center;
+  position: absolute;
+
+  line-height: 25px;
+  font-size: 25px;
+  color: #ddd;
+
+  margin: auto 0;
+  height: 25px;
+  width: 100%;
+  bottom: 0;
+  top: 0;
+}
+
+.field-container .row .ceil.checked {
+  background-image: radial-gradient(circle, #0C0 0%, transparent 75%);
+}
+
+.user-container {
+  text-align: center;
+}
+
+.user-container .text {
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-right: 25px;
+  font-weight: 600;
+  color: #ddd;
+}
+
+.user-container #save,
+.user-container #username {
+  text-transform: uppercase;
+  font-style: italic;
+  font-weight: 600;
+
+  border: 1px solid #aaa;
+  background-color: #222;
+  border-radius: 20px;
+  padding: 10px 20px;
+
+  color: #aaa;
+  outline: 0;
+}
+
+.user-container #save {
+  margin: 50px auto 0;
+  letter-spacing: 1px;
+
+  position: relative;
+  cursor: pointer;
+  display: block;
+}
+
+.match-container {
+  transition: opacity 0.5s;
+  pointer-events: none;
+  text-align: center;
+
+  position: absolute;
+  right: 0;
+  left: 0;
+  top: 0;
+}
+
+.match-container.hidden {
+  opacity: 0;
+}
+
+.match-container .player-container {
+  display: inline-block;
+}
+
+.match-container .player-container.first {
+  margin-right: 100px;
+}
+
+.match-container .player-container.second {
+  margin-left: 100px;
+}
+
+.match-container .player-container .player-info-container {
+  position: relative;
+  text-align: left;
+  width: 100%;
+}
+
+.match-container .player-container .player-info-container .username {
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-style: italic;
+  font-size: 30px;
+  color: #ddd;
+}
+
+.match-container .player-container .player-info-container .remaining-ships {
+  letter-spacing: 1px;
+  line-height: 38px;
+  color: #aaa;
+
+  position: absolute;
+  right: 0;
+}
+
+.match-container .player-container .player-info-container .remaining-ships span {
+  margin-left: 10px;
+  font-size: 30px;
+  color: #ddd;
+}
+
+.match-container .separator {
+  background-color: #000;
+  position: absolute;
+  display: block;
+  margin: auto;
+
+  height: 90%;
+  width: 3px;
+
+  bottom: 0;
+  right: 0;
+  left: 0;
+  top: 0;
+}
