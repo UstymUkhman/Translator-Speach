@@ -113,9 +113,12 @@ html, body {
 }
 
 .response-container {
+  text-align: center;
   position: absolute;
+
   height: 40px;
   width: 100%;
+
   bottom: 0;
 }
 

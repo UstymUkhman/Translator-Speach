@@ -10,11 +10,11 @@
 'use strict';
 
 var translate = require('google-translate-api'),
-    mpg       = require('mpg123'),
     exec      = require('child_process').exec,
     parser    = require('body-parser'),
     express   = require('express'),
     request   = require('request'),
+    mpg       = require('mpg123'),
     app       = express();
 
 app.use(parser.json());
@@ -47,12 +47,10 @@ app.post('/translate', function (req, res) {
       headersString += ` -H "${h}: ${headers[h]}"`
     }
 
-    // Pay attention here: in order to reproduce our mp3 file, we need to use the terminal player Mpg123
-    // Install on debian: sudo apt-get install mpg123
     exec(`curl -s -o ./client/${MP3} "${URL}" ${headersString} --compressed`, function () {
       res.status(200).send({ text: response.text, audio: MP3 });
       var player = new mpg.MpgPlayer();
-      player.play("./client/"+MP3);
+      player.play(`./client/${MP3}`);
     });
   });
 });
