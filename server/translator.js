@@ -14,7 +14,7 @@ var translate = require('google-translate-api'),
     parser    = require('body-parser'),
     express   = require('express'),
     request   = require('request'),
-    mpg       = require('mpg123'),
+    // mpg       = require('mpg123'),
     app       = express();
 
 app.use(parser.json());
@@ -47,10 +47,10 @@ app.post('/translate', function (req, res) {
       headersString += ` -H "${h}: ${headers[h]}"`
     }
 
-    exec(`curl -s -o ./client/${MP3} "${URL}" ${headersString} --compressed`, function () {
+    exec(`curl -s -o ./client/${MP3} "${URL}" ${headersString} --compressed && omxplayer -o local ./client/${MP3}`, function () {
       res.status(200).send({ text: response.text, audio: MP3 });
-      var player = new mpg.MpgPlayer();
-      player.play(`./client/${MP3}`);
+      // var player = new mpg.MpgPlayer();
+      // player.play(`./client/${MP3}`);
     });
   });
 });
