@@ -78,14 +78,21 @@ app.post('/answer', function (req, res) {
       }
 
       if (check) {
-        res.status(200).send({ text: currentAnswer, audio: `./answers/${currentAnswer}.mp3` });
-        return;
+        return playAnswerTrack(res, currentAnswer);
       }
     }
   }
 
-  res.status(200).send({ text: 'What?', audio: './answers/default.mp3' });
+  playAnswerTrack(res);
 });
+
+function playAnswerTrack (res, answer = 'default') {
+  const answerTrack = `answers/${answer}.mp3`;
+
+  exec(`omxplayer -o local ./client/${answerTrack}`, function () {
+    res.status(200).send({ text: answer, answer: answerTrack });
+  });
+}
 
 app.set('port', (process.env.PORT || 3000));
 

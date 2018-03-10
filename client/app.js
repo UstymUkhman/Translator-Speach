@@ -1,4 +1,4 @@
-window.SHOW_AUDIO = false;
+window.PLAY_AUDIO = false;
 
 document.addEventListener('DOMContentLoaded', function () {
   var language = document.getElementById('language-field');
@@ -23,8 +23,8 @@ document.addEventListener('DOMContentLoaded', function () {
         translation.textContent = response.text;
         track.src = response.audio;
 
-        if (SHOW_AUDIO) {
-          track.style.visibility = 'visible';
+        if (PLAY_AUDIO) {
+          track.play();
         }
       }
     };
@@ -46,6 +46,10 @@ document.addEventListener('DOMContentLoaded', function () {
         results.push(event.results[result][0].transcript);
       }
     }
+
+    if (!isRecording && results.length) {
+      answerQuestion();
+    }
   };
 
   function toggleRecording (event) {
@@ -54,9 +58,7 @@ document.addEventListener('DOMContentLoaded', function () {
       recognition.start();
     } else {
       recording.textContent = 'Start Recording';
-      console.log(results);
       recognition.stop();
-      answerQuestion();
     }
 
     isRecording = !isRecording;
@@ -72,15 +74,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
     xhr.onreadystatechange = function () {
       if (xhr.readyState === XMLHttpRequest.DONE) {
-        var response = xhr.response;
-        console.log(response);
+        var response = JSON.parse(xhr.response);
+
+        translation.textContent = response.text;
+        track.src = response.answer;
         results = [];
 
-        // track.src = response;
-
-        // if (SHOW_AUDIO) {
-        //   track.style.visibility = 'visible';
-        // }
+        if (PLAY_AUDIO) {
+          track.play();
+        }
       }
     };
   }
