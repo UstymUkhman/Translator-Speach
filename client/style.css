@@ -84,7 +84,7 @@ html, body {
   width: 100%;
 }
 
-#translate {
+#translate, #record {
   transition: background-color 0.5s, color 0.5s;
   text-transform: uppercase;
   background: transparent;
@@ -107,6 +107,11 @@ html, body {
   left: 0;
 }
 
+#record {
+  width: 175px;
+}
+
+#record:hover,
 #translate:hover {
   background-color: #000;
   color: #FFF;
@@ -119,7 +124,7 @@ html, body {
   height: 40px;
   width: 100%;
 
-  bottom: 0;
+  bottom: 50px;
 }
 
 #translated-text {
@@ -137,6 +142,7 @@ html, body {
   .settings-container {
     height: 400px;
     width: 80vw;
+    top: -50px;
   }
 
   .input-value {
@@ -171,7 +177,15 @@ html, body {
     width: 100%;
   }
 
+  #translate, #record {
+    bottom: -50px;
+  }
+
   #translate {
-    bottom: 0;
+    margin-left: 25%;
+  }
+
+  #record {
+    margin-right: 25%;
   }
 }

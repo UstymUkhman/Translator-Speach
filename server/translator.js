@@ -16,6 +16,12 @@ var translate = require('google-translate-api'),
     request   = require('request'),
     app       = express();
 
+const ANSWERS = {
+  'chewbacca': ['understand', 'you'],
+  'sparta': ['where', 'are'],
+  'what': ['what']
+};
+
 app.use(parser.json());
 app.use(parser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/../client'));
@@ -51,6 +57,34 @@ app.post('/translate', function (req, res) {
       res.status(200).send({ text: response.text, audio: MP3 });
     });
   });
+});
+
+app.post('/answer', function (req, res) {
+  const records = JSON.parse(req.body.records);
+  const answers = Object.keys(ANSWERS);
+
+  for (let record in records) {
+    const question = records[record].trim().toLowerCase();
+
+    for (let answer in answers) {
+      const currentAnswer = answers[answer];
+      let check = true;
+
+      for (let word in ANSWERS[currentAnswer]) {
+        if (!question.includes(ANSWERS[currentAnswer][word])) {
+          check = false;
+          break;
+        }
+      }
+
+      if (check) {
+        res.status(200).send({ text: currentAnswer, audio: `./answers/${currentAnswer}.mp3` });
+        return;
+      }
+    }
+  }
+
+  res.status(200).send({ text: 'What?', audio: './answers/default.mp3' });
 });
 
 app.set('port', (process.env.PORT || 3000));

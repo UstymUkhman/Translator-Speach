@@ -31,4 +31,59 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   document.getElementById('translate').addEventListener('click', translateText);
+
+  var recording = document.getElementById('record');
+  var recognition = new webkitSpeechRecognition();
+  var isRecording = false;
+  var results = [];
+
+  recognition.interimResults = true;
+  recognition.continuous = true;
+
+  recognition.onresult = function (event) {
+    for (var result in event.results) {
+      if (event.results[result].isFinal) {
+        results.push(event.results[result][0].transcript);
+      }
+    }
+  };
+
+  function toggleRecording (event) {
+    if (!isRecording) {
+      recording.textContent = 'Stop Recording';
+      recognition.start();
+    } else {
+      recording.textContent = 'Start Recording';
+      console.log(results);
+      recognition.stop();
+      answerQuestion();
+    }
+
+    isRecording = !isRecording;
+  }
+
+  function answerQuestion () {
+    var xhr  = new XMLHttpRequest();
+    var file = Date.now();
+
+    xhr.open('POST', '/answer', true);
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.send(encodeURI('records=' + JSON.stringify(results) + '&file=' + file));
+
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === XMLHttpRequest.DONE) {
+        var response = xhr.response;
+        console.log(response);
+        results = [];
+
+        // track.src = response;
+
+        // if (SHOW_AUDIO) {
+        //   track.style.visibility = 'visible';
+        // }
+      }
+    };
+  }
+
+  recording.addEventListener('click', toggleRecording);
 });
