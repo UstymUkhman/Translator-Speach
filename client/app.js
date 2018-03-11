@@ -1,4 +1,4 @@
-window.PLAY_AUDIO = true; // false;
+window.PLAY_AUDIO = false;
 
 document.addEventListener('DOMContentLoaded', function () {
   var language = document.getElementById('language-field');
@@ -6,15 +6,16 @@ document.addEventListener('DOMContentLoaded', function () {
   var file     = document.getElementById('file-field');
 
   var translation = document.getElementById('translated-text');
+  var check = document.getElementById('smart-answer-check');
   var track = document.getElementById('audio-translation');
 
   function translateText () {
-    var xhr  = new XMLHttpRequest();
-    var file = Date.now();
+    var xhr = new XMLHttpRequest();
+    var now = Date.now();
 
     xhr.open('POST', '/translate', true);
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    xhr.send(encodeURI('message=' + field.value + '&file=' + file + '&lang=' + language.value + '&ua=' + navigator.userAgent));
+    xhr.send(encodeURI('message=' + field.value + '&now=' + now + '&lang=' + language.value + '&ua=' + navigator.userAgent));
 
     xhr.onreadystatechange = function () {
       if (xhr.readyState === XMLHttpRequest.DONE) {
@@ -65,19 +66,21 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function answerQuestion () {
-    var xhr  = new XMLHttpRequest();
-    var file = Date.now();
+    var xhr = new XMLHttpRequest();
+    var now = Date.now();
+
+    console.log(results);
 
     xhr.open('POST', '/answer', true);
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    xhr.send(encodeURI('records=' + JSON.stringify(results) + '&file=' + file));
+    xhr.send(encodeURI('records=' + JSON.stringify(results) + '&smart=' + check.checked + '&now=' + now + '&ua=' + navigator.userAgent));
 
     xhr.onreadystatechange = function () {
       if (xhr.readyState === XMLHttpRequest.DONE) {
         var response = JSON.parse(xhr.response);
 
         translation.textContent = response.text;
-        track.src = response.answer;
+        track.src = response.audio;
         results = [];
 
         if (PLAY_AUDIO) {

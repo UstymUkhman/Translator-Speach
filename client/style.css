@@ -108,11 +108,11 @@ html, body {
 }
 
 #translate {
-  margin-left: 25%;
+  margin-left: 15%;
 }
 
 #record {
-  margin-right: 25%;
+  margin-right: 15%;
   width: 175px;
 }
 
@@ -149,6 +149,32 @@ html, body {
 
   width: 200px;
   right: 0;
+}
+
+.answer-type {
+  text-align: center;
+  position: absolute;
+
+  width: 100%;
+  top: -100px;
+}
+
+.smart-answer {
+  white-space: nowrap;
+  font-style: italic;
+  text-align: center;
+
+  margin-right: 10px;
+  line-height: 50px;
+  font-size: 20px;
+}
+
+#smart-answer-check {
+  position: relative;
+  top: 3px;
+
+  height: 20px;
+  width: 20px;
 }
 
 @media only screen and (max-width: 991px) {
@@ -196,5 +222,16 @@ html, body {
 
   .response-container {
     bottom: 50px;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  #translate {
+    margin-left: auto;
+  }
+
+  #record {
+    margin-right: auto;
+    bottom: -150px;
   }
 }
