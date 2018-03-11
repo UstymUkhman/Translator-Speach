@@ -13,14 +13,16 @@ var translate = require('google-translate-api'),
     exec      = require('child_process').exec,
     parser    = require('body-parser'),
     express   = require('express'),
-    request   = require('request'),
     app       = express();
 
-const ANSWERS = {
-  'chewbacca': ['understand', 'you'],
-  'sparta': ['where', 'are'],
-  'what': ['what']
-};
+
+const ANSWERS = new Map([
+  [{mp3: 'chewbacca'}, ['understand', 'you']],
+  [{mp3: 'sparta'}, ['what', 'is', 'this']],
+  [{mp3: 'sparta'}, ['where', 'are']],
+  [{mp3: 'what'}, ['what']]
+]);
+
 
 app.use(parser.json());
 app.use(parser.urlencoded({ extended: true }));
@@ -61,24 +63,22 @@ app.post('/translate', function (req, res) {
 
 app.post('/answer', function (req, res) {
   const records = JSON.parse(req.body.records);
-  const answers = Object.keys(ANSWERS);
 
-  for (let record in records) {
-    const question = records[record].trim().toLowerCase();
+  for (const record of records) {
+    const question = record.trim().toLowerCase();
 
-    for (let answer in answers) {
-      const currentAnswer = answers[answer];
+    for (const [answer, keyWords] of ANSWERS) {
       let check = true;
 
-      for (let word in ANSWERS[currentAnswer]) {
-        if (!question.includes(ANSWERS[currentAnswer][word])) {
+      for (const word of keyWords) {
+        if (!question.includes(word)) {
           check = false;
           break;
         }
       }
 
       if (check) {
-        return playAnswerTrack(res, currentAnswer);
+        return playAnswerTrack(res, answer.mp3);
       }
     }
   }
