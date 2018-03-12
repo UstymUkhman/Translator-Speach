@@ -1,7 +1,6 @@
 {
   "name": "Translator-Speach",
   "description": "Google Translator message reproduced with Raspberry Pi",
-  "main": "server/battleship.js",
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
