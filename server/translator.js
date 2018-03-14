@@ -113,6 +113,7 @@ const playTranslatedMessage = (res, query) => {
 
     exec(`curl -s -o ./client/${MP3} "${URL}" ${headersString} --compressed && ${playCommand}`, () => {
       res.status(200).send({ text: response.text, audio: MP3 });
+      exec(`curl -s http://localhost:8000/cgi-bin/setup-arduino.py?pin=0,0,0`);
     });
   });
 };
