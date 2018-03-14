@@ -34,7 +34,9 @@ const FUNNY_ANSWERS = new Map([
 const SMART_ANSWERS = new Map([
   [{message: 'I might be older than you expect'}, ['how', 'old', 'you']],
   [{message: 'It looks like hell'}, ['what', 'is', 'this']],
-  [{message: 'We are in school'}, ['where', 'are']]
+  [{message: 'We are in school'}, ['where', 'are']],
+  [{message: 'Ciao'}, ['ciao', 'hi', 'buongiorno']],
+  [{message: 'Non lo so'}, ['meteo', 'ore', 'colore', 'weather', 'color']],
 ]);
 
 
