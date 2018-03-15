@@ -20,6 +20,7 @@ const FUNNY_ANSWERS = new Map([
   [{mp3: 'chewbacca'}, ['understand', 'me']],
   [{mp3: 'sparta'}, ['what', 'is', 'this']],
   [{mp3: 'sparta'}, ['where', 'are']],
+  [{mp3: 'song'}, ['sing', 'song']],
   [{mp3: 'what'}, ['what']],
 
   [{mp3: 'acting'}, ['you', 'like', 'acting']],
@@ -114,8 +115,8 @@ const playTranslatedMessage = (res, query) => {
     }
 
     exec(`curl -s -o ./client/${MP3} "${URL}" ${headersString} --compressed && ${playCommand}`, () => {
-      res.status(200).send({ text: response.text, audio: MP3 });
       exec(`curl -s http://localhost:8000/cgi-bin/setup-arduino.py?pin=0,0,0`);
+      res.status(200).send({ text: response.text, audio: MP3 });
     });
   });
 };
