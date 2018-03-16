@@ -1,4 +1,4 @@
-window.PLAY_AUDIO = true; // false;
+window.PLAY_AUDIO = false;
 
 document.addEventListener('DOMContentLoaded', function () {
   var language = document.getElementById('language-field');

@@ -36,8 +36,18 @@ const SMART_ANSWERS = new Map([
   [{message: 'I might be older than you expect'}, ['how', 'old', 'you']],
   [{message: 'It looks like hell'}, ['what', 'is', 'this']],
   [{message: 'We are in school'}, ['where', 'are']],
-  [{message: 'Ciao'}, ['ciao', 'hi', 'buongiorno']],
-  [{message: 'Non lo so'}, ['meteo', 'ore', 'colore', 'weather', 'color']],
+
+  [{message: 'Non lo so'}, ['che', 'ore', 'sono']],
+  [{message: 'Non lo so'}, ['che', 'colore']],
+  [{message: 'Non lo so'}, ['meteo']],
+
+  [{message: 'Non lo so'}, ['what', 'weather']],
+  [{message: 'Non lo so'}, ['what', 'color']],
+  [{message: 'Non lo so'}, ['what', 'time']],
+
+  [{message: 'Ciao'}, ['buongiorno']],
+  [{message: 'Ciao'}, ['ciao']],
+  [{message: 'Ciao'}, ['hi']]
 ]);
 
 
@@ -137,7 +147,7 @@ const playAnswerTrack = (res, smart, info, answer = null) => {
     playTranslatedMessage(res, {
       message: answerMessage,
       timestamp: info.now,
-      lang: 'en-US',
+      lang: 'en-US', // it-IT
       ua: info.ua
     });
   } else {
